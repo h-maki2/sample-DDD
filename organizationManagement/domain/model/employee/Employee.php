@@ -6,9 +6,9 @@ use organizationManagement\domain\model\employee\exception\CanNotChangeEmployeeN
 
 class Employee
 {
-    private EmployeeId $id; // 一意な識別子
+    private EmployeeId $id;
     private EmployeeName $name;
-    private bool $isRetired; // 退職済みかどうか
+    private bool $isRetired;
 
     private function __construct(
         EmployeeId $id,
