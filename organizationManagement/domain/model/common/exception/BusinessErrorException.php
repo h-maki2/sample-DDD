@@ -2,4 +2,4 @@
 
 namespace organizationManagement\domain\model\common\exception;
 
-abstract class DomainException extends \Exception {}
+abstract class BusinessErrorException extends \Exception {}

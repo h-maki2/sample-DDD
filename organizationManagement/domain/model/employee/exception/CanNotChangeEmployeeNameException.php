@@ -2,6 +2,6 @@
 
 namespace organizationManagement\domain\model\employee\exception;
 
-use organizationManagement\domain\model\common\exception\DomainException;
+use organizationManagement\domain\model\common\exception\BusinessErrorException;
 
-class CanNotChangeEmployeeNameException extends DomainException {};
+class CanNotChangeEmployeeNameException extends BusinessErrorException {};

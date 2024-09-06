@@ -28,5 +28,13 @@ class OrganizationData
         return $this->name;
     }
 
-    
+    public function type(): string
+    {
+        return $this->type;
+    }
+
+    public function status(): string
+    {
+        return $this->status;
+    }
 }

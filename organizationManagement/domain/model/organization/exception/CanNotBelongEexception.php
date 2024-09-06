@@ -2,6 +2,6 @@
 
 namespace organizationManagement\domain\model\organization\exception;
 
-use organizationManagement\domain\model\common\exception\DomainException;
+use organizationManagement\domain\model\common\exception\BusinessErrorException;
 
-class CanNotBelongEexception extends DomainException {};
+class CanNotBelongEexception extends BusinessErrorException {};
