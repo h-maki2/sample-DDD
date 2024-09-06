@@ -11,14 +11,14 @@ class Organization
     private OrganizationId $id;
     private OrganizationType $type;
     private OrganizationStatus $status;
-    private string $name;
+    private OrganizationName $name;
     private array $employeeIdList;
 
     private function __construct(
         OrganizationId $id,
         OrganizationType $type,
         OrganizationStatus $status,
-        string $name,
+        OrganizationName $name,
         array $employeeIdList
     ) {
         $this->id = $id;
@@ -30,11 +30,11 @@ class Organization
 
     /**
      * @param OrganizationId $id
-     * @param string $name
+     * @param OrganizationName $name
      */
     public static function create(
         OrganizationId $id,
-        string $name
+        OrganizationName $name
     ): self {
         return new self(
             $id,
@@ -49,14 +49,14 @@ class Organization
      * @param OrganizationId $id
      * @param OrganizationType $type
      * @param OrganizationStatus $status
-     * @param string $name
+     * @param OrganizationName $name
      * @param EmployeeId[] $employeeIdList
      */
     public static function reconstruct(
         OrganizationId $id,
         OrganizationType $type,
         OrganizationStatus $status,
-        string $name,
+        OrganizationName $name,
         array $employeeIdList
     ): self {
         return new self(
@@ -83,7 +83,7 @@ class Organization
         return $this->status;
     }
 
-    public function name(): string
+    public function name(): OrganizationName
     {
         return $this->name;
     }
@@ -98,7 +98,7 @@ class Organization
      * @param EmployeeId $employeeId
      * @throws CanNotBelongEexception 
      */
-    public function belongToEmployee(EmployeeId $employeeId): void
+    public function assign(EmployeeId $employeeId): void
     {
         if ($this->status->isAbolition()) {
             // 組織が廃止されている場合は所属できない
@@ -116,7 +116,7 @@ class Organization
      */
     public function changeToAbolition(): void
     {
-        if ($this->canChangeToAbolition()) {
+        if (!$this->canChangeToAbolition()) {
             throw new CanNotChangeToAbolitionException('organizationID: ' . $this->id() . 'の廃止処理に失敗しました。');
         }
 

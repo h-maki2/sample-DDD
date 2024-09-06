@@ -10,6 +10,11 @@ enum OrganizationType: string
     case DEPARTMENT = '1'; // 部
     case SECTION = '2'; // 課
 
+    const DISPLAY_NAME = [
+        self::DEPARTMENT => '部',
+        self::SECTION => '課'
+    ];
+
     public function isDepartment(): bool
     {
         return $this->value === self::DEPARTMENT;
@@ -18,5 +23,10 @@ enum OrganizationType: string
     public function isSection(): bool
     {
         return $this->value === self::SECTION;
+    }
+
+    public function displayValue(): string
+    {
+        return self::DISPLAY_NAME[$this->value];  
     }
 }
