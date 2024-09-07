@@ -30,7 +30,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
         $eloquentOrganization->save();
 
         $emmployeeIdList = array_map(function ($employeeId) {
-            return $employeeId->value(); // EmployeeId から値を取得
+            return $employeeId->value();
         }, $organization->employeeIdList());
 
         $eloquentOrganization->employees()->sync($emmployeeIdList);
