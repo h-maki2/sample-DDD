@@ -51,8 +51,8 @@ class EloquentOrganizationRepository implements IOrganizationRepository
     {
         return new Organization(
             new OrganizationId($eloquentOrganization->id),
-            new OrganizationType($eloquentOrganization->type),
-            new OrganizationStatus($eloquentOrganization->status),
+            OrganizationType::from($eloquentOrganization->type),
+            OrganizationStatus::from($eloquentOrganization->status),
             new OrganizationName($eloquentOrganization->name),
             $eloquentOrganization->employees->map(function ($employee) {
                 return new EmployeeId($employee->id);
