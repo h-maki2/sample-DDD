@@ -6,5 +6,5 @@ use organizationManagement\domain\model\organization\OrganizationId;
 
 interface IOrganizationQueryService
 {
-    public function detailedOrganizationInfo(OrganizationId $id): DetailedOrganizationInfo;
+    public function detailedOrganizationInfo(OrganizationId $id): ?DetailedOrganizationInfo;
 }

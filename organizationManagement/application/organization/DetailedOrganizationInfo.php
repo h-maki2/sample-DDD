@@ -29,6 +29,7 @@ class DetailedOrganizationInfo
         $this->name = $name->value();
         $this->type = $type->displayValue();
         $this->status = $status->displayValue();
+        $this->employeeList = $employeeList;
     }
 
     public function name(): string
