@@ -30,8 +30,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "organizationManagement\\": "organizationManagement/",
-            "infrastructure\\": "infrastructure/"
+            "organizationManagement\\": "organizationManagement/"
         }
     },
     "scripts": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace infrastructure\persistence;
+namespace organizationManagement\sqlInfrastructure\persistence;
 
 use organizationManagement\application\organization\IOrganizationQueryService;
 use organizationManagement\application\organization\DetailedOrganizationInfo;

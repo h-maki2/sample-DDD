@@ -1,6 +1,6 @@
 <?php
 
-namespace infrastructure\persistence;
+namespace organizationManagement\sqlInfrastructure\persistence;
 
 use Illuminate\Support\Str;
 use App\Models\Organization as EloquentOrganization;
