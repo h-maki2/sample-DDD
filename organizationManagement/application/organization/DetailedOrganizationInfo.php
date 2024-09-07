@@ -1,21 +1,29 @@
 <?php
 
-namespace organizationManagement\application\common;
+namespace organizationManagement\application\organization;
 
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationStatus;
 use organizationManagement\domain\model\organization\OrganizationType;
 
-class OrganizationData
+class DetailedOrganizationInfo
 {
     private string $name;
     private string $type;
     private string $status;
+    private array $employeeList;
 
+    /**
+     * @param OrganizationName $name
+     * @param OrganizationType $type
+     * @param OrganizationStatus $status
+     * @param Employee[] $employeeList
+     */
     public function __construct(
         OrganizationName $name,
         OrganizationType $type,
-        OrganizationStatus $status
+        OrganizationStatus $status,
+        array $employeeList
     )
     {
         $this->name = $name->value();
@@ -36,5 +44,10 @@ class OrganizationData
     public function status(): string
     {
         return $this->status;
+    }
+
+    public function employeeList(): array
+    {
+        return $this->employeeList;
     }
 }

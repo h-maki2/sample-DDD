@@ -34,11 +34,7 @@ class OrganizationApplicationService
      */
     public function detailedOrganizationInfo(string $organizationIdString)
     {
-        $organization = $this->organizationRepository->findById(new OrganizationId($organizationIdString));
-
-        if ($organization === null) {
-            throw new IllegalStateException('組織が存在しません。organizationId: ' . $organizationIdString);
-        }
+        
     }
 
     /**
