@@ -56,11 +56,11 @@ class OrganizationTest extends TestCase
     public function test_組織が廃止されている場合は、従業員を所属できない()
     {
         // given
-        $statusIsSurvives = OrganizationStatus::ABOLITION; // 組織の状態は廃止
+        $statusIsAbolition = OrganizationStatus::ABOLITION; // 組織の状態は廃止
         $organization = Organization::reconstruct(
             new OrganizationId('1'),
             OrganizationType::DEPARTMENT,
-            $statusIsSurvives,
+            $statusIsAbolition,
             new OrganizationName('営業'),
             []
         );
@@ -71,6 +71,31 @@ class OrganizationTest extends TestCase
         $assignId = new EmployeeId('assign id');
         $this->expectException(IllegalStateException::class);
         $this->expectExceptionMessage('employeeId: ' . $assignId->value() . 'の所属に失敗しました。');
+
         $organization->assign($assignId);
     }
+
+   public function test_101人以上従業員が所属している場合に、組織の種別が「課」に更新される()
+   {
+        // given
+        $id = new OrganizationId('1');
+        $name = new OrganizationName('営業');
+        $organization = Organization::create(
+            $id,
+            $name
+        );
+
+        // 100人分の従業員を所属させる
+        for ($i = 1; $i <= 100; $i++) {
+            $assignId = new EmployeeId($i);
+            $organization->assign($assignId);
+        }
+
+        // when
+        $assignId = new EmployeeId('101');
+        $organization->assign($assignId);
+
+        // then: 組織の種別が「課」に更新されていることを確認
+        $this->assertEquals(OrganizationType::SECTION->value, $organization->type()->value);
+   }
 }
