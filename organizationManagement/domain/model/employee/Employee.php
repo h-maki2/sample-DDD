@@ -2,7 +2,7 @@
 
 namespace organizationManagement\domain\model\employee;
 
-use organizationManagement\domain\model\employee\exception\CanNotChangeEmployeeNameException;
+use organizationManagement\domain\model\common\exception\IllegalStateException;
 
 class Employee
 {
@@ -61,7 +61,7 @@ class Employee
     public function changeName(EmployeeName $name): void
     {
         if ($this->isRetired) {
-            throw new CanNotChangeEmployeeNameException('従業員の名前を変更できません。');
+            throw new IllegalStateException('従業員の名前を変更できません。');
         }
 
         $this->name = $name;
