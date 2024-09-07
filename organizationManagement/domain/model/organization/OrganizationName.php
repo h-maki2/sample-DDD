@@ -10,12 +10,12 @@ class OrganizationName
 
     public function __construct(string $value)
     {
-        if (empty($name)) {
-            throw new InvalidArgumentException('組織名が空です。');
-        }
-
         if (mb_strlen($value, 'UTF-8') >= 50) {
             throw new InvalidArgumentException('組織名が50文字を超えています。');
+        }
+
+        if ($this->isEmptyOrWhitespace($value)) {
+            throw new InvalidArgumentException('組織名が空です。');
         }
 
         $this->value = $value;
@@ -24,5 +24,9 @@ class OrganizationName
     public function value(): string
     {
         return $this->value;
+    }
+
+    private function isEmptyOrWhitespace(string $string) {
+        return preg_match('/^\s*$/u', $string);
     }
 }
