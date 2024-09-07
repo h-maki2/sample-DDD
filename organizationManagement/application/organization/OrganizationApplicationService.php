@@ -2,9 +2,6 @@
 
 namespace organizationManagement\application\organization;
 
-use organizationManagement\application\common\OrganizationData;
-use organizationManagement\domain\model\common\exception\BusinessErrorException;
-use organizationManagement\domain\model\common\exception\DomainException;
 use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\IOrganizationRepository;
 use organizationManagement\domain\model\organization\Organization;

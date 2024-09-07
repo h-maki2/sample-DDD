@@ -87,6 +87,9 @@ class Organization
         return $this->name;
     }
 
+    /**
+     * @return EmployeeId[]
+     */
     public function employeeIdList(): array
     {
         return $this->employeeIdList;

@@ -2,7 +2,7 @@
 
 namespace organizationManagement\application\organization;
 
-use organizationManagement\domain\model\employee\Employee;
+use organizationManagement\application\common\EmployeeData\EmployeeData;
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationStatus;
 use organizationManagement\domain\model\organization\OrganizationType;
