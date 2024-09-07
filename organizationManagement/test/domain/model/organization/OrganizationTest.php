@@ -23,7 +23,7 @@ class OrganizationTest extends TestCase
             $name
         );
 
-        // then
+        // then: 組織の状態が「部」で、組織の状態が「存続」であることを確認
         $this->assertEquals(OrganizationType::DEPARTMENT->value, $organization->type()->value);
         $this->assertEquals(OrganizationStatus::SURVIVES->value, $organization->status()->value);
 
@@ -91,11 +91,28 @@ class OrganizationTest extends TestCase
             $organization->assign($assignId);
         }
 
-        // when
+        // when: 101人目の従業員を所属させる
         $assignId = new EmployeeId('101');
         $organization->assign($assignId);
 
         // then: 組織の種別が「課」に更新されていることを確認
         $this->assertEquals(OrganizationType::SECTION->value, $organization->type()->value);
    }
+
+   public function test_所属している従業員数が0人の場合に、組織の状態を「廃止」にできる()
+   {
+        // given
+        $organization = Organization::reconstruct(
+            new OrganizationId('1'),
+            OrganizationType::DEPARTMENT,
+            OrganizationStatus::SURVIVES, // 組織に状態は存続
+            new OrganizationName('営業'),
+            [] // 従業員数は0人
+        );
+
+        // when
+        $organization->changeToAbolition();
+
+        // then: 組織の状態は「廃止」であることを確認
+        $this->assertEquals(OrganizationStatus::ABOLITION->value, $organization->status()->value);   }
 }
