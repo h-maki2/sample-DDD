@@ -13,6 +13,7 @@ use organizationManagement\domain\model\common\IUnitOfWork;
 use organizationManagement\domain\model\employee\EmployeeId;
 use organizationManagement\domain\model\organization\OrganizationStatus;
 use organizationManagement\domain\model\organization\OrganizationType;
+use organizationManagement\domain\model\common\exception\IllegalStateException;
 
 class OrganizationApplicationService
 {
@@ -26,6 +27,18 @@ class OrganizationApplicationService
     {
         $this->organizationRepository = $organizationRepository;
         $this->unitOfWork = $unitOfWork;
+    }
+
+    /**
+     * 組織の詳細情報を閲覧する
+     */
+    public function detailedOrganizationInfo(string $organizationIdString)
+    {
+        $organization = $this->organizationRepository->findById(new OrganizationId($organizationIdString));
+
+        if ($organization === null) {
+            throw new IllegalStateException('組織が存在しません。organizationId: ' . $organizationIdString);
+        }
     }
 
     /**
@@ -55,26 +68,21 @@ class OrganizationApplicationService
     {
         $organization = $this->organizationRepository->findById(new OrganizationId($organizationIdString));
 
-        try {
-            $organization->assign(new EmployeeId($employeeIdString));
-        } catch (BusinessErrorException $e) {
-
-        }
+        $organization->assign(new EmployeeId($employeeIdString));
 
         $this->unitOfWork->performTransaction(function () use ($organization) {
             $this->organizationRepository->save($organization);
         });
     }
 
+    /**
+     * 組織を廃止にする
+     */
     public function organizationChangeToAbolition(string $organizationIdString): void
     {
         $organization = $this->organizationRepository->findById(new OrganizationId($organizationIdString));
 
-        try {
-            $organization->changeToAbolition();
-        } catch (BusinessErrorException $e) {
-
-        }
+        $organization->changeToAbolition();
 
         $this->unitOfWork->performTransaction(function () use ($organization) {
             $this->organizationRepository->save($organization);

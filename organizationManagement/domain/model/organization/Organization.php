@@ -3,8 +3,7 @@
 namespace organizationManagement\domain\model\organization;
 
 use organizationManagement\domain\model\employee\EmployeeId;
-use organizationManagement\domain\model\organization\exception\CanNotBelongEexception;
-use organizationManagement\domain\model\organization\exception\CanNotChangeToAbolitionException;
+use organizationManagement\domain\model\common\exception\IllegalStateException;
 
 class Organization
 {
@@ -102,7 +101,7 @@ class Organization
     {
         if ($this->status->isAbolition()) {
             // 組織が廃止されている場合は所属できない
-            throw new CanNotBelongEexception('employeeId: ' . $employeeId . 'の所属に失敗しました。');
+            throw new IllegalStateException('employeeId: ' . $employeeId . 'の所属に失敗しました。');
         }
 
         $this->employeeIdList[] = $employeeId;
@@ -117,7 +116,7 @@ class Organization
     public function changeToAbolition(): void
     {
         if (!$this->canChangeToAbolition()) {
-            throw new CanNotChangeToAbolitionException('organizationID: ' . $this->id() . 'の廃止処理に失敗しました。');
+            throw new IllegalStateException('organizationID: ' . $this->id() . 'の廃止処理に失敗しました。');
         }
 
         $this->status = OrganizationStatus::ABOLITION;
