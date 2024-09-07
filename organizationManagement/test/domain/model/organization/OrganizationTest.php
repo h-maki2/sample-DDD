@@ -134,4 +134,31 @@ class OrganizationTest extends TestCase
         $this->expectExceptionMessage('organizationID: ' . $id->value() . 'の廃止処理に失敗しました。');
         $organization->changeToAbolition();
     }
+
+    public function test_reconstructに値を渡すと、渡した値でインスタンスが作成される()
+    {
+        // given
+
+        // when
+        $oarganizationId = new OrganizationId('1');
+        $type = OrganizationType::DEPARTMENT;
+        $status = OrganizationStatus::SURVIVES;
+        $name = new OrganizationName('営業');
+        $employeeId = new EmployeeId('1');
+
+        $organization = Organization::reconstruct(
+            $oarganizationId,
+            $type,
+            $status,
+            $name,
+            [$employeeId]
+        );
+
+        // then
+        $this->assertEquals($oarganizationId->value(), $organization->id()->value());
+        $this->assertEquals($type->value, $organization->type()->value);
+        $this->assertEquals($status->value, $organization->status()->value);
+        $this->assertEquals($name->value(), $organization->name()->value());
+        $this->assertEquals($employeeId->value(), $organization->employeeIdList()[0]->value());
+    }
 }
