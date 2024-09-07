@@ -48,6 +48,11 @@ class Employee
     {
         return $this->name;
     }
+
+    public function isRetired(): bool
+    {
+        return $this->isRetired;
+    }
     
     /**
      * 名前を変更する

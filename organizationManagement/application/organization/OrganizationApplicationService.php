@@ -18,23 +18,31 @@ use organizationManagement\domain\model\common\exception\IllegalStateException;
 class OrganizationApplicationService
 {
     private IOrganizationRepository $organizationRepository;
+    private IOrganizationQueryService $organizationQueryService;
     private IUnitOfWork $unitOfWork;
 
     public function __construct(
         IOrganizationRepository $organizationRepository,
+        IOrganizationQueryService $organizationQueryService,
         IUnitOfWork $unitOfWork
     )
     {
         $this->organizationRepository = $organizationRepository;
+        $this->organizationQueryService = $organizationQueryService;
         $this->unitOfWork = $unitOfWork;
     }
 
     /**
      * 組織の詳細情報を閲覧する
      */
-    public function detailedOrganizationInfo(string $organizationIdString)
+    public function detailedOrganizationInfo(string $organizationIdString): DetailedOrganizationInfo
     {
-        
+        $detailedOrganizationInfo = $this->organizationQueryService->detailedOrganizationInfo(new OrganizationId($organizationIdString));
+        if ($detailedOrganizationInfo === null) {
+            throw new IllegalStateException('組織の詳細情報が存在しません。organizationId: ' . $organizationIdString);
+        }
+
+        return $detailedOrganizationInfo;
     }
 
     /**

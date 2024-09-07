@@ -2,6 +2,7 @@
 
 namespace organizationManagement\application\organization;
 
+use organizationManagement\domain\model\employee\Employee;
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationStatus;
 use organizationManagement\domain\model\organization\OrganizationType;
@@ -17,7 +18,7 @@ class DetailedOrganizationInfo
      * @param OrganizationName $name
      * @param OrganizationType $type
      * @param OrganizationStatus $status
-     * @param Employee[] $employeeList
+     * @param EmployeeData[] $employeeList
      */
     public function __construct(
         OrganizationName $name,
@@ -47,6 +48,9 @@ class DetailedOrganizationInfo
         return $this->status;
     }
 
+    /**
+     * @return EmployeeData[]
+     */
     public function employeeList(): array
     {
         return $this->employeeList;

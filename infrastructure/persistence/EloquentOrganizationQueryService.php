@@ -5,6 +5,7 @@ namespace infrastructure\persistence;
 use organizationManagement\application\organization\IOrganizationQueryService;
 use organizationManagement\application\organization\DetailedOrganizationInfo;
 use App\Models\Organization as EloquentOrganization;
+use organizationManagement\application\common\EmployeeData\EmployeeData;
 use organizationManagement\domain\model\employee\Employee;
 use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\OrganizationName;
@@ -22,10 +23,9 @@ class EloquentOrganizationQueryService implements IOrganizationQueryService
 
         $employeeList = [];
         foreach ($organization->employees as $employee) {
-            $employeeList[] = new Employee(
-                $employee->id(),
+            $employeeList[] = new EmployeeData(
                 $employee->name(),
-                $employee->retired()
+                (bool) $employee->retired()
             );
         }
 
