@@ -114,5 +114,24 @@ class OrganizationTest extends TestCase
         $organization->changeToAbolition();
 
         // then: 組織の状態は「廃止」であることを確認
-        $this->assertEquals(OrganizationStatus::ABOLITION->value, $organization->status()->value);   }
+        $this->assertEquals(OrganizationStatus::ABOLITION->value, $organization->status()->value);   
+    }
+
+    public function test_所属している従業員数が1人以上の場合に、組織の状態を「廃止」に変更すると例外が発生する()
+    {
+        // given
+        $id = new OrganizationId('1');
+        $organization = Organization::reconstruct(
+            $id,
+            OrganizationType::DEPARTMENT,
+            OrganizationStatus::SURVIVES, // 組織に状態は存続
+            new OrganizationName('営業'),
+            [new EmployeeId('1')] // 従業員数は0人
+        );
+
+        // then
+        $this->expectException(IllegalStateException::class);
+        $this->expectExceptionMessage('organizationID: ' . $id->value() . 'の廃止処理に失敗しました。');
+        $organization->changeToAbolition();
+    }
 }
