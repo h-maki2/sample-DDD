@@ -1,5 +1,6 @@
 <?php
 
+use organizationManagement\domain\model\common\exception\IllegalStateException;
 use organizationManagement\domain\model\employee\EmployeeId;
 use PHPUnit\Framework\TestCase;
 use organizationManagement\domain\model\organization\Organization;
@@ -34,7 +35,7 @@ class OrganizationTest extends TestCase
     public function test_組織の状態が存続の場合に、組織に従業員を所属できる()
     {
         // given
-        $statusIsSurvives = OrganizationStatus::SURVIVES;
+        $statusIsSurvives = OrganizationStatus::SURVIVES; // 組織の状態は存続
         $organization = Organization::reconstruct(
             new OrganizationId('1'),
             OrganizationType::DEPARTMENT,
@@ -52,4 +53,24 @@ class OrganizationTest extends TestCase
         $this->assertEquals($assignId->value(), $employeeId->value());
     }
 
+    public function test_組織が廃止されている場合は、従業員を所属できない()
+    {
+        // given
+        $statusIsSurvives = OrganizationStatus::ABOLITION; // 組織の状態は廃止
+        $organization = Organization::reconstruct(
+            new OrganizationId('1'),
+            OrganizationType::DEPARTMENT,
+            $statusIsSurvives,
+            new OrganizationName('営業'),
+            []
+        );
+
+        // when
+
+        // then: 従業員を所属させる
+        $assignId = new EmployeeId('assign id');
+        $this->expectException(IllegalStateException::class);
+        $this->expectExceptionMessage('employeeId: ' . $assignId->value() . 'の所属に失敗しました。');
+        $organization->assign($assignId);
+    }
 }

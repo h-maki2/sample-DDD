@@ -104,7 +104,7 @@ class Organization
     {
         if ($this->status->isAbolition()) {
             // 組織が廃止されている場合は所属できない
-            throw new IllegalStateException('employeeId: ' . $employeeId . 'の所属に失敗しました。');
+            throw new IllegalStateException('employeeId: ' . $employeeId->value() . 'の所属に失敗しました。');
         }
 
         $this->employeeIdList[] = $employeeId;
@@ -119,7 +119,7 @@ class Organization
     public function changeToAbolition(): void
     {
         if (!$this->canChangeToAbolition()) {
-            throw new IllegalStateException('organizationID: ' . $this->id() . 'の廃止処理に失敗しました。');
+            throw new IllegalStateException('organizationID: ' . $this->id()->value() . 'の廃止処理に失敗しました。');
         }
 
         $this->status = OrganizationStatus::ABOLITION;
