@@ -10,23 +10,22 @@ enum OrganizationType: string
     case DEPARTMENT = '1'; // 部
     case SECTION = '2'; // 課
 
-    const DISPLAY_NAME = [
-        self::DEPARTMENT => '部',
-        self::SECTION => '課'
-    ];
-
     public function isDepartment(): bool
     {
-        return $this->value === self::DEPARTMENT;
+        return $this->value === self::DEPARTMENT->value;
     }
 
     public function isSection(): bool
     {
-        return $this->value === self::SECTION;
+        return $this->value === self::SECTION->value;
     }
 
     public function displayValue(): string
     {
-        return self::DISPLAY_NAME[$this->value];  
+        $displayName = [
+            self::DEPARTMENT->value => '部',
+            self::SECTION->value => '課'
+        ];
+        return $displayName[$this->value];  
     }
 }
