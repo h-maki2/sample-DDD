@@ -3,6 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
+use organizationManagement\domain\model\common\exception\IllegalStateException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +30,36 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+     /**
+     * Report or log an exception.
+     *
+     * @param \Throwable $exception
+     * @return void
+     */
+    public function report(Throwable $exception): void
+    {
+        if ($exception instanceof IllegalStateException) {
+            Log::error($exception->getMessage());
+        }
+
+        parent::report($exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     */
+    public function render($request, Throwable $exception): Response
+    {
+        if ($exception instanceof InvalidArgumentException) {
+            return response()->view('errors.404', [], 404);
+        }
+
+        if ($exception instanceof IllegalStateException) {
+            return response()->view('errors.400', [], 400);
+        }
+
+        return parent::render($request, $exception);
     }
 }

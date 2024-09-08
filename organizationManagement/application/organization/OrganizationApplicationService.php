@@ -37,7 +37,7 @@ class OrganizationApplicationService
     {
         $detailedOrganizationInfo = $this->organizationQueryService->detailedOrganizationInfo(new OrganizationId($organizationIdString));
         if ($detailedOrganizationInfo === null) {
-            throw new IllegalStateException('組織の詳細情報が存在しません。organizationId: ' . $organizationIdString);
+            throw new \InvalidArgumentException('組織の詳細情報が存在しません。organizationId: ' . $organizationIdString);
         }
 
         return $detailedOrganizationInfo;
@@ -69,6 +69,9 @@ class OrganizationApplicationService
     ): void
     {
         $organization = $this->organizationRepository->findById(new OrganizationId($organizationIdString));
+        if ($organization === null) {
+            throw new \InvalidArgumentException('組織が存在しません。');
+        }
 
         $organization->assign(new EmployeeId($employeeIdString));
 
@@ -83,6 +86,9 @@ class OrganizationApplicationService
     public function organizationChangeToAbolition(string $organizationIdString): void
     {
         $organization = $this->organizationRepository->findById(new OrganizationId($organizationIdString));
+        if ($organization === null) {
+            throw new \InvalidArgumentException('組織が存在しません。');
+        }
 
         $organization->changeToAbolition();
 
