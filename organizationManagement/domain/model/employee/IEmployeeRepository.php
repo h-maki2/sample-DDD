@@ -8,5 +8,7 @@ interface IEmployeeRepository
     
     public function save(Employee $employee): void;
 
+    public function delete(Employee $employee): void;
+
     public function nextIdentity(): EmployeeId;
 }

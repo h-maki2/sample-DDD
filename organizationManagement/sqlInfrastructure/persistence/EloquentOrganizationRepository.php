@@ -39,7 +39,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
     public function delete(Organization $organization): void
     {
         $eloquentOrganization = $this->toEloquent($organization);
-        $eloquentOrganization->save();
+        $eloquentOrganization->delete();
     }
 
     public function nextIdentity(): OrganizationId
