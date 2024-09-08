@@ -2,6 +2,7 @@
 
 namespace organizationManagement\application\organization;
 
+use organizationManagement\domain\model\common\AUnitOfWork;
 use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\IOrganizationRepository;
 use organizationManagement\domain\model\organization\Organization;
@@ -16,12 +17,12 @@ class OrganizationApplicationService
 {
     private IOrganizationRepository $organizationRepository;
     private IOrganizationQueryService $organizationQueryService;
-    private IUnitOfWork $unitOfWork;
+    private AUnitOfWork $unitOfWork;
 
     public function __construct(
         IOrganizationRepository $organizationRepository,
         IOrganizationQueryService $organizationQueryService,
-        IUnitOfWork $unitOfWork
+        AUnitOfWork $unitOfWork
     )
     {
         $this->organizationRepository = $organizationRepository;

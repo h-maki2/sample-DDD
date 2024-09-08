@@ -103,7 +103,7 @@ class EloquentOrganizationRepositoryTest extends TestCase
         $this->organizationRepository->save($organization);
         $chengedOrganization = $this->organizationRepository->findById($testOrganizationId);
 
-        // then
+        // then: 従業員が追加されていることを確認
         $expectResult = [$testEmployeeId, $assignedEmployeeId];
         $actualResult = $chengedOrganization->employeeIdList();
         $this->assertEquals(sort($expectResult), sort($actualResult));
