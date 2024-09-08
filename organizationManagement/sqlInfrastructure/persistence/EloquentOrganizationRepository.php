@@ -66,8 +66,9 @@ class EloquentOrganizationRepository implements IOrganizationRepository
         $eloquentOrganization = $this->eloquentOrganizationFrom($organization->id());
         if ($eloquentOrganization === null) {
             $eloquentOrganization = new EloquentOrganization();
+            $eloquentOrganization->id = $organization->id()->value();
         }
-        $eloquentOrganization->id = $organization->id()->value();
+        
         $eloquentOrganization->type = $organization->type()->value;
         $eloquentOrganization->status = $organization->status()->value;
         $eloquentOrganization->name = $organization->name()->value();
