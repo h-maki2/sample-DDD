@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Providers\AppServiceProvider;
+use Exception;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use organizationManagement\application\organization\OrganizationApplicationService;
 
 class OrganizationController extends Controller
@@ -15,8 +18,15 @@ class OrganizationController extends Controller
         $this->applicationService = $organizationApplicationService;
     }
 
-    public function detailedOrganizationInfo(Request $requst)
+    public function detailedOrganizationInfo(Request $requst): Response
     {
-        $detailedOrganizationInfo = $this->applicationService->detailedOrganizationInfo($requst->get('id'));
+        try {
+            $detailedOrganizationInfo = $this->applicationService->detailedOrganizationInfo($requst->get('id'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
+
+        return response()->view('organization.detail', ['detailedOrganizationInfo' => $detailedOrganizationInfo]);
     }
 }
