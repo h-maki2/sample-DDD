@@ -17,7 +17,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 {
     public function findById(OrganizationId $id): ?Organization
     {
-        $eloquentOrganization = EloquentOrganization::with('employees')->find($id->value());
+        $eloquentOrganization = $this->eloquentOrganizationFrom($id);
         if ($eloquentOrganization === null) {
             return null;
         }
@@ -39,7 +39,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 
     public function delete(OrganizationId $id): void
     {
-        $eloquentOrganization = EloquentOrganization::with('employees')->find($id->value());
+        $eloquentOrganization = $this->eloquentOrganizationFrom($id);
         $eloquentOrganization->delete();
     }
 
@@ -63,7 +63,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 
     private function toEloquent(Organization $organization): EloquentOrganization
     {
-        $eloquentOrganization = EloquentOrganization::with('employees')->find($organization->id()->value());
+        $eloquentOrganization = $this->eloquentOrganizationFrom($organization->id());
         if ($eloquentOrganization === null) {
             $eloquentOrganization = new EloquentOrganization();
         }
@@ -72,5 +72,10 @@ class EloquentOrganizationRepository implements IOrganizationRepository
         $eloquentOrganization->status = $organization->status()->value;
         $eloquentOrganization->name = $organization->name()->value();
         return $eloquentOrganization;
+    }
+
+    private function eloquentOrganizationFrom(OrganizationId $id): ?EloquentOrganization
+    {
+        return EloquentOrganization::with('employees')->find($id->value());
     }
 }
