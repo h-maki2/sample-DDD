@@ -8,7 +8,7 @@ interface IOrganizationRepository
 
     public function save(Organization $organization): void;
 
-    public function delete(Organization $organization): void;
+    public function delete(OrganizationId $id): void;
 
     public function nextIdentity(): OrganizationId;
 }

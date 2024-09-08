@@ -4,6 +4,7 @@ namespace organizationManagement\sqlInfrastructure\persistence;
 
 use Illuminate\Support\Str;
 use App\Models\Organization as EloquentOrganization;
+use Illuminate\Support\Facades\Log;
 use organizationManagement\domain\model\employee\EmployeeId;
 use organizationManagement\domain\model\organization\IOrganizationRepository;
 use organizationManagement\domain\model\organization\Organization;
@@ -36,9 +37,9 @@ class EloquentOrganizationRepository implements IOrganizationRepository
         $eloquentOrganization->employees()->sync($emmployeeIdList);
     }
 
-    public function delete(Organization $organization): void
+    public function delete(OrganizationId $id): void
     {
-        $eloquentOrganization = $this->toEloquent($organization);
+        $eloquentOrganization = EloquentOrganization::with('employees')->find($id->value());
         $eloquentOrganization->delete();
     }
 
@@ -62,7 +63,10 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 
     private function toEloquent(Organization $organization): EloquentOrganization
     {
-        $eloquentOrganization = new EloquentOrganization();
+        $eloquentOrganization = EloquentOrganization::with('employees')->find($organization->id()->value());
+        if ($eloquentOrganization === null) {
+            $eloquentOrganization = new EloquentOrganization();
+        }
         $eloquentOrganization->id = $organization->id()->value();
         $eloquentOrganization->type = $organization->type()->value;
         $eloquentOrganization->status = $organization->status()->value;
