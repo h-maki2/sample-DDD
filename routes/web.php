@@ -19,4 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/detail', [OrganizationController::class, 'detail']);
+Route::get('/detail', [OrganizationController::class, 'detail'])->name('organization.detail');

@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use organizationManagement\application\organization\OrganizationApplicationService;
+use Illuminate\Database\QueryException;
 
 class OrganizationController extends Controller
 {
@@ -18,10 +19,10 @@ class OrganizationController extends Controller
         $this->applicationService = $organizationApplicationService;
     }
 
-    public function detail(Request $requst): Response
+    public function detail(Request $request): Response
     {
         try {
-            $detailedOrganizationInfo = $this->applicationService->detailedOrganizationInfo($requst->get('id', ''));
+            $detailedOrganizationInfo = $this->applicationService->detailedOrganizationInfo($request->get('id', ''));
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->view('errors.500', [], 500);
@@ -30,8 +31,59 @@ class OrganizationController extends Controller
         return response()->view('organization.detail', ['detail' => $detailedOrganizationInfo]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        try {
+            $id = $this->applicationService->createOrganization($request->post('name', ''));
+        }
+        catch (QueryException $e) {
+            Log::error($e->getMessage());
+            //ToDo なんかしらの処理を行う
+        } 
+        catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
 
+        redirect()->route('organization.detail', ['id' => $id]);
+    }
+
+    public function assign(Request $request)
+    {
+        $organizationId = $request->post('organizationId', '');
+        $employeeId = $request->post('employeeId', '');
+
+        try {
+            $this->applicationService->assignEmployeesToTheOrganization($organizationId, $employeeId);
+        }
+        catch (QueryException $e) {
+            Log::error($e->getMessage());
+            //ToDo なんかしらの処理を行う
+        } 
+        catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
+
+        redirect()->route('organization.detail', ['id' => $organizationId]);
+    }
+
+    public function abolition(Request $request)
+    {
+        $id = $request->post('id', '');
+        
+        try {
+            $this->applicationService->organizationChangeToAbolition($id);
+        }
+        catch (QueryException $e) {
+            Log::error($e->getMessage());
+            //ToDo なんかしらの処理を行う
+        } 
+        catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
+
+        redirect()->route('organization.detail', ['id' => $id]);
     }
 }
