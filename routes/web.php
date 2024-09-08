@@ -20,3 +20,6 @@ Route::get('/', function () {
 });
 
 Route::get('/detail', [OrganizationController::class, 'detail'])->name('organization.detail');
+Route::post('/create', [OrganizationController::class, 'create']);
+Route::post('/assign', [OrganizationController::class, 'assign']);
+Route::post('/abolition', [OrganizationController::class, 'abolition']);
