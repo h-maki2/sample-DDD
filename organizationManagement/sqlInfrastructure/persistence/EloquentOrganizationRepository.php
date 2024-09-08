@@ -16,7 +16,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 {
     public function findById(OrganizationId $id): ?Organization
     {
-        $eloquentOrganization = EloquentOrganization::with('employees')->find($id);
+        $eloquentOrganization = EloquentOrganization::with('employees')->find($id->value());
         if ($eloquentOrganization === null) {
             return null;
         }
@@ -49,14 +49,14 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 
     private function toDomain(EloquentOrganization $eloquentOrganization): Organization
     {
-        return new Organization(
+        return Organization::reconstruct(
             new OrganizationId($eloquentOrganization->id),
             OrganizationType::from($eloquentOrganization->type),
             OrganizationStatus::from($eloquentOrganization->status),
             new OrganizationName($eloquentOrganization->name),
             $eloquentOrganization->employees->map(function ($employee) {
                 return new EmployeeId($employee->id);
-            })
+            })->toArray()
         );
     }
 
