@@ -19,6 +19,9 @@ class OrganizationController extends Controller
         $this->applicationService = $organizationApplicationService;
     }
 
+    /**
+     * 組織情報の詳細画面
+     */
     public function detail(Request $request): Response
     {
         try {
@@ -31,6 +34,9 @@ class OrganizationController extends Controller
         return response()->view('organization.detail', ['detail' => $detailedOrganizationInfo]);
     }
 
+    /**
+     * 新たな組織を作成する
+     */
     public function create(Request $request)
     {
         try {
@@ -48,6 +54,9 @@ class OrganizationController extends Controller
         redirect()->route('organization.detail', ['id' => $id]);
     }
 
+    /**
+     * 従業員を組織に所属させる
+     */
     public function assign(Request $request)
     {
         $organizationId = $request->post('organizationId', '');
@@ -68,10 +77,13 @@ class OrganizationController extends Controller
         redirect()->route('organization.detail', ['id' => $organizationId]);
     }
 
+    /**
+     * 組織を廃止する
+     */
     public function abolition(Request $request)
     {
         $id = $request->post('id', '');
-        
+
         try {
             $this->applicationService->organizationChangeToAbolition($id);
         }
