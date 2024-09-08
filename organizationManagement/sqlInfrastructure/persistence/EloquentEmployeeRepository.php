@@ -11,9 +11,13 @@ use organizationManagement\domain\model\employee\EmployeeName;
 
 class EloquentEmployeeRepository implements IEmployeeRepository
 {
-    public function findById(EmployeeId $id): Employee
+    public function findById(EmployeeId $id): ?Employee
     {
         $eloquentEmployee = EloquentEmployee::find($id->value());
+        if ($eloquentEmployee === null) {
+            return null;
+        }
+
         return $this->toDomain($eloquentEmployee);
     }
 
