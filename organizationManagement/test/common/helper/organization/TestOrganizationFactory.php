@@ -13,7 +13,7 @@ class TestOrganizationFactory
     public function create(
         OrganizationId $id,
         array $employeeIdList,
-        OrganizationName $name = new OrganizationName('test user'),
+        OrganizationName $name = new OrganizationName('test organization'),
         OrganizationType $type = OrganizationType::DEPARTMENT,
         OrganizationStatus $status = OrganizationStatus::SURVIVES,
     ): Organization 
