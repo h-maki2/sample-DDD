@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\UnitOfWork;
+namespace organizationManagement\sqlInfrastructure\persistence;
 
 use Illuminate\Support\Facades\DB;
 use organizationManagement\domain\model\common\AUnitOfWork;
