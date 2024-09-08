@@ -18,15 +18,20 @@ class OrganizationController extends Controller
         $this->applicationService = $organizationApplicationService;
     }
 
-    public function detailedOrganizationInfo(Request $requst): Response
+    public function detail(Request $requst): Response
     {
         try {
-            $detailedOrganizationInfo = $this->applicationService->detailedOrganizationInfo($requst->get('id'));
+            $detailedOrganizationInfo = $this->applicationService->detailedOrganizationInfo($requst->get('id', ''));
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->view('errors.500', [], 500);
         }
 
-        return response()->view('organization.detail', ['detailedOrganizationInfo' => $detailedOrganizationInfo]);
+        return response()->view('organization.detail', ['detail' => $detailedOrganizationInfo]);
+    }
+
+    public function create()
+    {
+
     }
 }
