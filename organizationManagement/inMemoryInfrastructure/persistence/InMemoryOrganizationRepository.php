@@ -38,7 +38,7 @@ class InMemoryOrganizationRepository implements IOrganizationRepository
 
     public function save(Organization $organization): void
     {
-        $this->organization_table_data[] = $this->toArray($organization);
+        
     }
 
     public function delete(Organization $organization): void
@@ -84,17 +84,6 @@ class InMemoryOrganizationRepository implements IOrganizationRepository
         return array_map(function ($item) {
             return new EmployeeId(array_values($item)[0]); // employeeIDを取得
         }, $filteredData);
-    }
-
-    private function toArray(Organization $organization): array
-    {
-        return [
-            $organization->id()->value() => [
-                'name' => $organization->name()->value(), 
-                'type' => $organization->type()->value,
-                'status' => $organization->status()->value
-            ]
-        ];
     }
 }
 
