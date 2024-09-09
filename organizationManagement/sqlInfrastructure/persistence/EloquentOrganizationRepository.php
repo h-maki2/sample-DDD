@@ -50,7 +50,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
     private function toDomain(EloquentOrganization $eloquentOrganization): Organization
     {
         return Organization::reconstruct(
-            new OrganizationId($eloquentOrganization->organization_uuid),
+            new OrganizationId($eloquentOrganization->id),
             OrganizationType::from($eloquentOrganization->type),
             OrganizationStatus::from($eloquentOrganization->status),
             new OrganizationName($eloquentOrganization->name),
@@ -65,7 +65,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
         $eloquentOrganization = $this->eloquentOrganizationFrom($organization->id());
         if ($eloquentOrganization === null) {
             $eloquentOrganization = new EloquentOrganization();
-            $eloquentOrganization->organization_uuid = $organization->id()->value();
+            $eloquentOrganization->id = $organization->id()->value();
         }
         
         $eloquentOrganization->type = $organization->type()->value;
@@ -76,6 +76,6 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 
     private function eloquentOrganizationFrom(OrganizationId $id): ?EloquentOrganization
     {
-        return EloquentOrganization::with('employees')->where('organization_uuid', $id->value())->first();
+        return EloquentOrganization::with('employees')->find($id->value());
     }
 }

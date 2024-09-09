@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('organization_uuid')->unique();
-            $table->string('name');
-            $table->tinyInteger('status');
-            $table->tinyInteger('type');
-            $table->timestamps();
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->dropColumn('employee_id'); // 'age' カラムを削除
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organizations');
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->unsignedBigInteger('employee_id');
+        });
     }
 };
