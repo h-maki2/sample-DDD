@@ -13,7 +13,7 @@ class EloquentEmployeeRepository implements IEmployeeRepository
 {
     public function findById(EmployeeId $id): ?Employee
     {
-        $eloquentEmployee = EloquentEmployee::find($id->value());
+        $eloquentEmployee = $this->eloquentEmployeeFrom($id);
         if ($eloquentEmployee === null) {
             return null;
         }
@@ -49,10 +49,20 @@ class EloquentEmployeeRepository implements IEmployeeRepository
 
     private function toEloquent(Employee $employee): EloquentEmployee
     {
-        $eloquentEmployee = new EloquentEmployee();
-        $eloquentEmployee->id = $employee->id()->value();
+        $eloquentEmployee = $this->eloquentEmployeeFrom($employee->id());
+
+        if ($eloquentEmployee === null) {
+            $eloquentEmployee = new EloquentEmployee();
+            $eloquentEmployee->id = $employee->id()->value();
+        }
+        
         $eloquentEmployee->name = $employee->name()->value();
         $eloquentEmployee->retired = $employee->isRetired();
         return $eloquentEmployee;
+    }
+
+    private function eloquentEmployeeFrom(EmployeeId $id): ?EloquentEmployee
+    {
+        return EloquentEmployee::find($id->value());
     }
 }

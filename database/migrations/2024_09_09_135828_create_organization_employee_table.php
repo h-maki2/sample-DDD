@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('organization_employee', function (Blueprint $table) {
             $table->unsignedBigInteger('organization_id');
-            $table->unsignedBigInteger('employee_id');
+            $table->uuid('employee_id');
 
             $table->foreign('organization_id')
                 ->references('id')
@@ -36,4 +36,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('organization_employee');
     }
+
 };

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('employee_uuid')->unique();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->boolean('retired');
             $table->timestamps();
@@ -28,3 +27,4 @@ return new class extends Migration
         Schema::dropIfExists('employees');
     }
 };
+

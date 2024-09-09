@@ -4,7 +4,6 @@ namespace organizationManagement\sqlInfrastructure\persistence;
 
 use Illuminate\Support\Str;
 use App\Models\Organization as EloquentOrganization;
-use Illuminate\Support\Facades\Log;
 use organizationManagement\domain\model\employee\EmployeeId;
 use organizationManagement\domain\model\organization\IOrganizationRepository;
 use organizationManagement\domain\model\organization\Organization;
@@ -51,7 +50,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
     private function toDomain(EloquentOrganization $eloquentOrganization): Organization
     {
         return Organization::reconstruct(
-            new OrganizationId($eloquentOrganization->id),
+            new OrganizationId($eloquentOrganization->organization_uuid),
             OrganizationType::from($eloquentOrganization->type),
             OrganizationStatus::from($eloquentOrganization->status),
             new OrganizationName($eloquentOrganization->name),
@@ -66,7 +65,7 @@ class EloquentOrganizationRepository implements IOrganizationRepository
         $eloquentOrganization = $this->eloquentOrganizationFrom($organization->id());
         if ($eloquentOrganization === null) {
             $eloquentOrganization = new EloquentOrganization();
-            $eloquentOrganization->id = $organization->id()->value();
+            $eloquentOrganization->organization_uuid = $organization->id()->value();
         }
         
         $eloquentOrganization->type = $organization->type()->value;
@@ -77,6 +76,6 @@ class EloquentOrganizationRepository implements IOrganizationRepository
 
     private function eloquentOrganizationFrom(OrganizationId $id): ?EloquentOrganization
     {
-        return EloquentOrganization::with('employees')->find($id->value());
+        return EloquentOrganization::with('employees')->where('organization_uuid', $id->value())->first();
     }
 }
