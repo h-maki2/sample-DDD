@@ -1,8 +1,8 @@
 <?php
 
-namespace organizationManagement\application\common\EmployeeData;
+namespace organizationManagement\application\common;
 
-class EmployeeData
+class EmployeeData implements JsonSerializable
 {
     private string $name;
     private bool $retired;
@@ -21,5 +21,13 @@ class EmployeeData
     public function isRetired(): bool
     {
         return $this->retired;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'employeeName' => $this->name,
+            'retired' => $this->retired
+        ];
     }
 }
