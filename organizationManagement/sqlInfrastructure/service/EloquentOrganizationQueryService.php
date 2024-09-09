@@ -23,12 +23,14 @@ class EloquentOrganizationQueryService implements IOrganizationQueryService
         $employeeList = [];
         foreach ($organization->employees as $employee) {
             $employeeList[] = new EmployeeData(
+                $employee->id,
                 $employee->name,
                 (bool) $employee->retired
             );
         }
 
         return new DetailedOrganizationInfo(
+            new OrganizationId($organization->id),
             new OrganizationName($organization->name),
             OrganizationType::from($organization->type),
             OrganizationStatus::from($organization->status),

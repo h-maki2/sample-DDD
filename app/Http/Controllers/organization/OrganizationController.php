@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\organization;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -29,7 +30,9 @@ class OrganizationController extends Controller
             return response()->json(['message' => 'Internal server error'], 500);
         }
 
-        return response()->json($detailedOrganizationInfo, 200);
+        $detailResponse = new DetailResponse();
+
+        return response()->json($detailResponse->get($detailedOrganizationInfo), 200);
     }
 
     /**

@@ -2,14 +2,15 @@
 
 namespace organizationManagement\application\organization;
 
-use organizationManagement\application\common\JsonSerializable;
 use organizationManagement\application\common\EmployeeData;
+use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationStatus;
 use organizationManagement\domain\model\organization\OrganizationType;
 
-class DetailedOrganizationInfo implements JsonSerializable
+class DetailedOrganizationInfo
 {
+    private string $id;
     private string $name;
     private string $type;
     private string $status;
@@ -22,16 +23,23 @@ class DetailedOrganizationInfo implements JsonSerializable
      * @param EmployeeData[] $employeeList
      */
     public function __construct(
+        OrganizationId $id,
         OrganizationName $name,
         OrganizationType $type,
         OrganizationStatus $status,
         array $employeeList
     )
     {
+        $this->id = $id->value();
         $this->name = $name->value();
         $this->type = $type->displayValue();
         $this->status = $status->displayValue();
         $this->employeeList = $employeeList;
+    }
+
+    public function id(): string
+    {
+        return $this->id;
     }
 
     public function name(): string
@@ -52,18 +60,8 @@ class DetailedOrganizationInfo implements JsonSerializable
     /**
      * @return EmployeeData[]
      */
-    public function employeeList(): array
+    public function employeeDataList(): array
     {
         return $this->employeeList;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'organizationName' => $this->name,
-            'organizationType' => $this->type,
-            'organizationStatus' => $this->status,
-            'employeeList' => $this->employeeList
-        ];
     }
 }

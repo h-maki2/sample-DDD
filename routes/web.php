@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\organization\OrganizationController;
 
 /*
 |--------------------------------------------------------------------------

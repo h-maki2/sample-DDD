@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\organization\DetailResponse;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use organizationManagement\application\common\EmployeeData;
+use organizationManagement\application\organization\DetailedOrganizationInfo;
+use organizationManagement\domain\model\employee\EmployeeId;
 use organizationManagement\domain\model\employee\EmployeeName;
+use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationStatus;
 use organizationManagement\domain\model\organization\OrganizationType;
@@ -55,10 +60,30 @@ class OrganizationControllerTest extends TestCase
             $organizationStatus
         );
 
+        $detailedOrganizationInfo = new DetailedOrganizationInfo(
+            $organizationId,
+            $organizationName,
+            $organizationType,
+            $organizationStatus,
+            [
+                new EmployeeData(
+                    $employeeId->value(),
+                    $employeeName->value(),
+                    $isRetired
+                )
+            ]
+        );
+
         // when
         $response = $this->json('GET', '/detail', ['id' => $organizationId->value()]);
 
         // then
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson($this->expectResult($detailedOrganizationInfo));
+    }
+
+    private function expectResult(DetailedOrganizationInfo $detailedOrganizationInfo)
+    {
+        $detailResponse = new DetailResponse();
+        return $detailResponse->get($detailedOrganizationInfo);
     }
 }
