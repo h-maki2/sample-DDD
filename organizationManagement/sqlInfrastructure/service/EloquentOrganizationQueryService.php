@@ -15,7 +15,7 @@ class EloquentOrganizationQueryService implements IOrganizationQueryService
 {
     public function detailedOrganizationInfo(OrganizationId $id): ?DetailedOrganizationInfo
     {
-        $organization = EloquentOrganization::find($id->value());
+        $organization = EloquentOrganization::with('employees')->find($id->value());
         if (empty($organization)) {
             return null;
         }
@@ -23,15 +23,15 @@ class EloquentOrganizationQueryService implements IOrganizationQueryService
         $employeeList = [];
         foreach ($organization->employees as $employee) {
             $employeeList[] = new EmployeeData(
-                $employee->name(),
-                (bool) $employee->retired()
+                $employee->name,
+                (bool) $employee->retired
             );
         }
 
         return new DetailedOrganizationInfo(
-            new OrganizationName($organization->name()),
-            new OrganizationType($organization->type()),
-            new OrganizationStatus($organization->status()),
+            new OrganizationName($organization->name),
+            OrganizationType::from($organization->type),
+            OrganizationStatus::from($organization->status),
             $employeeList
         );
     }
