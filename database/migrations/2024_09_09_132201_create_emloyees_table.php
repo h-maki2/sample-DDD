@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->dropColumn('employee_id');
+        Schema::create('employees', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('employee_uuid')->unique();
+            $table->string('name');
+            $table->boolean('retired');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->string('employee_id');
-        });
+        Schema::dropIfExists('employees');
     }
 };
