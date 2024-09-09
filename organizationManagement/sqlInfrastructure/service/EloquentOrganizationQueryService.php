@@ -1,10 +1,10 @@
 <?php
 
-namespace organizationManagement\sqlInfrastructure\persistence;
+namespace organizationManagement\sqlInfrastructure\service;
 
 use organizationManagement\application\organization\IOrganizationQueryService;
 use organizationManagement\application\organization\DetailedOrganizationInfo;
-use organizationManagement\application\common\EmployeeData\EmployeeData;
+use organizationManagement\application\common\EmployeeData;
 use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationType;

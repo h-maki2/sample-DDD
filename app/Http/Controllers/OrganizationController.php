@@ -18,7 +18,7 @@ class OrganizationController extends Controller
     }
 
     /**
-     * 組織情報の詳細画面
+     * 組織情報の詳細
      */
     public function detail(Request $request): JsonResponse
     {

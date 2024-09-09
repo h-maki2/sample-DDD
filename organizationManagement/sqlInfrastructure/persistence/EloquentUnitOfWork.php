@@ -5,7 +5,7 @@ namespace organizationManagement\sqlInfrastructure\persistence;
 use Illuminate\Support\Facades\DB;
 use organizationManagement\domain\model\common\AUnitOfWork;
 
-class EloquentUnitOfWork implements AUnitOfWork
+class EloquentUnitOfWork extends AUnitOfWork
 {
     protected function beginTransaction(): void
     {

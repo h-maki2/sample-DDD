@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use organizationManagement\sqlInfrastructure\persistence\EloquentEmployeeRepository;
-use organizationManagement\sqlInfrastructure\persistence\EloquentOrganizationQueryService;
+use organizationManagement\sqlInfrastructure\service\EloquentOrganizationQueryService;
 use organizationManagement\sqlInfrastructure\persistence\EloquentOrganizationRepository;
 use organizationManagement\sqlInfrastructure\persistence\EloquentUnitOfWork;
 use organizationManagement\application\organization\IOrganizationQueryService;
