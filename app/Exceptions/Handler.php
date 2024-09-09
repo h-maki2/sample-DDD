@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
@@ -44,20 +46,28 @@ class Handler extends ExceptionHandler
             Log::error($exception->getMessage());
         }
 
+        if ($exception instanceof QueryException) {
+            Log::error($exception->getMessage());
+        }
+
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      */
-    public function render($request, Throwable $exception): Response
+    public function render($request, Throwable $exception): JsonResponse
     {
         if ($exception instanceof InvalidArgumentException) {
-            return response()->view('errors.404', [], 404);
+            return response()->json(['message' => '404 Not Found'], 404);
         }
 
         if ($exception instanceof IllegalStateException) {
-            return response()->view('errors.400', [], 400);
+            return response()->json(['message' => '400 Bad Request'], 400);
+        }
+
+        if ($exception instanceof QueryException) {
+            return response()->json(['message' => 'Service Unavailable'], 503);
         }
 
         return parent::render($request, $exception);
