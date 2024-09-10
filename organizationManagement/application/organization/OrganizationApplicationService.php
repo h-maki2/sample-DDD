@@ -7,11 +7,7 @@ use organizationManagement\domain\model\organization\OrganizationId;
 use organizationManagement\domain\model\organization\IOrganizationRepository;
 use organizationManagement\domain\model\organization\Organization;
 use organizationManagement\domain\model\organization\OrganizationName;
-use organizationManagement\domain\model\common\IUnitOfWork;
 use organizationManagement\domain\model\employee\EmployeeId;
-use organizationManagement\domain\model\organization\OrganizationStatus;
-use organizationManagement\domain\model\organization\OrganizationType;
-use organizationManagement\domain\model\common\exception\IllegalStateException;
 
 class OrganizationApplicationService
 {

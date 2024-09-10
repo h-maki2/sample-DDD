@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use organizationManagement\domain\model\employee\EmployeeId;
-use organizationManagement\domain\model\employee\EmployeeName;
+use Illuminate\Foundation\Testing\DatabaseTransactions;;
 use organizationManagement\domain\model\organization\Organization;
 use organizationManagement\domain\model\organization\OrganizationName;
 use organizationManagement\domain\model\organization\OrganizationStatus;
@@ -33,7 +31,7 @@ class EloquentOrganizationRepositoryTest extends TestCase
         $this->employeeTestData = new EmployeeTestDataCreator($this->employeeRepository);
     }
 
-    public function test_インサートしたデータがfindByidメソッドで取得できる()
+    public function test_インサートしたデータがfindByIdメソッドで取得できる()
     {
         // given: テストデータの準備
         // employeeがすでに作成されている

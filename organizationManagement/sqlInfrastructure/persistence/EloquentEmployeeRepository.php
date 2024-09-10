@@ -40,7 +40,7 @@ class EloquentEmployeeRepository implements IEmployeeRepository
 
     private function toDomain(EloquentEmployee $eloquentEmployee): Employee
     {
-        return new Employee(
+        return Employee::reconstruct(
             new EmployeeId($eloquentEmployee->id),
             new EmployeeName($eloquentEmployee->name),
             $eloquentEmployee->retired
