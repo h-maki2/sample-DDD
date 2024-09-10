@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use organizationManagement\sqlInfrastructure\persistence\EloquentEmployeeRepository;
 use organizationManagement\sqlInfrastructure\persistence\EloquentUnitOfWork;
@@ -9,6 +10,8 @@ class EloquentUnitOfWorkTest extends TestCase
 {
     private EloquentEmployeeRepository $employeeRepository;
     private EloquentUnitOfWork $unitOfWork;
+
+    use DatabaseTransactions;
 
     public function setUp(): void
     {

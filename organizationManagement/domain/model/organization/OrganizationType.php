@@ -22,10 +22,9 @@ enum OrganizationType: string
 
     public function displayValue(): string
     {
-        $displayName = [
-            self::DEPARTMENT->value => '部',
-            self::SECTION->value => '課'
-        ];
-        return $displayName[$this->value];  
+        return match($this) {
+            self::DEPARTMENT => '部',
+            self::SECTION  => '課'
+        };
     }
 }

@@ -22,10 +22,9 @@ enum OrganizationStatus: string
 
     public function displayValue(): string
     {
-        $displayName = [
-            self::ABOLITION->value => '廃止',
-            self::SURVIVES->value => '存続'
-        ];
-        return $displayName[$this->value];
+        return match($this) {
+            self::ABOLITION => '廃止',
+            self::SURVIVES => '存続'
+        };
     }
 }

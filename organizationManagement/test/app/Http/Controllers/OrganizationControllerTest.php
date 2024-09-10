@@ -39,45 +39,33 @@ class OrganizationControllerTest extends TestCase
     public function test_組織情報の詳細が取得できる()
     {
         // given: テストデータの準備
-        $employeeId = $this->employeeRepository->nextIdentity();
-        $employeeName = new EmployeeName('test user');
-        $isRetired = false;
-        $this->employeeTestData->create(
-            $employeeId,
-            $employeeName,
-            $isRetired
+        $employee = $this->employeeTestData->create(
+            $this->employeeRepository->nextIdentity()
         );
 
         $organizationId = $this->organizationRepository->nextIdentity();
-        $organizationName = new OrganizationName('test organization');
-        $organizationType = OrganizationType::DEPARTMENT;
-        $organizationStatus = OrganizationStatus::SURVIVES;
-        $this->organizationCreator->create(
-            $organizationId,
-            [$employeeId],
-            $organizationName,
-            $organizationType,
-            $organizationStatus
-        );
-
-        $detailedOrganizationInfo = new DetailedOrganizationInfo(
-            $organizationId,
-            $organizationName,
-            $organizationType,
-            $organizationStatus,
-            [
-                new EmployeeData(
-                    $employeeId->value(),
-                    $employeeName->value(),
-                    $isRetired
-                )
-            ]
+        $organization = $this->organizationCreator->create(
+            $this->organizationRepository->nextIdentity(),
+            [$employee->id()]
         );
 
         // when
         $response = $this->json('GET', '/detail', ['id' => $organizationId->value()]);
 
         // then
+        $detailedOrganizationInfo = new DetailedOrganizationInfo(
+            $organization->Id(),
+            $organization->name(),
+            $organization->type(),
+            $organization->status(),
+            [
+                new EmployeeData(
+                    $employee->id()->value(),
+                    $employee->name()->value(),
+                    $employee->isRetired()
+                )
+            ]
+        );
         $response->assertStatus(200)->assertJson($this->expectResult($detailedOrganizationInfo));
     }
 
