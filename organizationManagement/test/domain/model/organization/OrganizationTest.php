@@ -161,4 +161,22 @@ class OrganizationTest extends TestCase
         $this->assertEquals($name->value(), $organization->name()->value());
         $this->assertEquals($employeeId->value(), $organization->employeeIdList()[0]->value());
     }
+
+    public function test_既に所属済みの従業員を所属させようとすると例外が発生する()
+    {
+        // given
+        $employeeId = new EmployeeId('1');
+        $organization = Organization::reconstruct(
+            new OrganizationId('1'),
+            OrganizationType::DEPARTMENT,
+            OrganizationStatus::SURVIVES,
+            new OrganizationName('営業'),
+            [$employeeId]
+        );
+
+        // then
+        $this->expectException(IllegalStateException::class);
+        $this->expectExceptionMessage('employeeId: ' . $employeeId->value() . 'の従業員は既に所属済みです。');
+        $organization->assign($employeeId);
+    }
 }

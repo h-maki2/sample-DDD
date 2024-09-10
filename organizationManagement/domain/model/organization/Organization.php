@@ -107,6 +107,11 @@ class Organization
             throw new IllegalStateException('employeeId: ' . $employeeId->value() . 'の所属に失敗しました。');
         }
 
+        if ($this->alreadyAssigned($employeeId)) {
+            // すでに所属済みの従業員だった場合
+            throw new IllegalStateException('employeeId: ' . $employeeId->value() . 'の従業員は既に所属済みです。');
+        }
+
         $this->employeeIdList[] = $employeeId;
 
         $this->updateSection();
@@ -162,5 +167,16 @@ class Organization
     private function hasMoreThan101Employees(): bool
     {
         return $this->countEmployee() >= 101;
+    }
+
+    private function alreadyAssigned(EmployeeId $otherEmployeeId): bool
+    {
+        foreach ($this->employeeIdList as $employeeId) {
+            if ($employeeId->equals($otherEmployeeId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

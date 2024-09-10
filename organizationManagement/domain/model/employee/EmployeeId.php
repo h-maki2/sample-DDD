@@ -20,4 +20,9 @@ class EmployeeId
     {
         return $this->value;
     }
+
+    public function equals(EmployeeId $other)
+    {
+        return $this->value === $other->value();
+    }
 }
